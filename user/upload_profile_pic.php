@@ -28,7 +28,7 @@ if ($_FILES['photo_profil']['name']) {
         $stmt->execute();
 
         // Rediriger vers la page de profil avec un message de succès
-        header("Location: user.php?upload_success=true");
+        header("Location: ../user.php?upload_success=true");
         exit();
     } else {
         echo "Erreur lors du téléchargement du fichier.";

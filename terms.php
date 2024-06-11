@@ -1,3 +1,23 @@
+<?php 
+session_start();
+
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Vérifier si l'utilisateur a cliqué sur le lien de déconnexion
+if (isset($_GET['logout'])) {
+    // Terminer la session
+    session_unset();
+    session_destroy();
+    // Rediriger vers la page de connexion
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -18,9 +38,18 @@
           <li class="nav-item"><a href="index" class="nav-link text-success" aria-current="page">Accueil</a></li>
           <li class="nav-item"><a href="#" class="nav-link text-success">À Propos</a></li>
           <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
-          <li><a class="btn btn-outline-success me-2" href="user/dashboard" role="button">Connexion</a></li>
-          <li><button type="button" class="btn btn-success">S'inscrire</button></li>
-        
+          <?php
+          if (isset($_SESSION['username']))   {
+              // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
+              $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
+              echo "<li class='nav-item'><a href='user.php' class='nav-link text-success'>{$username}</a></li>";
+              echo "<li class='nav-item'><a class='btn btn-success' href='user.php?logout=true'>Déconnexion</a></li>";
+          } else {
+              echo "<li><a href='login.php' class='btn btn-outline-success me-2' style='text-decoration:none'>Connexion</a></li>";
+              echo "<li><a href='register.php' class='btn btn-success'>S'inscrire</a></li>";
+          }
+          ?>
+        </ul>
     </div>
   </nav>
 
@@ -99,10 +128,8 @@
             <div class="col-6 col-md">
             <h5>Pages</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="link-secondary text-decoration-none" href="#">Accueil</a></li>
+                <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
                 <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
-                <li><a class="link-secondary text-decoration-none" href="login">Connexion</a></li>
-                <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">

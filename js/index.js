@@ -1,22 +1,25 @@
 window.onload = function() {
-    fetch('http://192.168.1.50')
-        .then(response => response.json())
-        .then(data => {
-            var volt = data.volt;
-            var ampere = data.ampere;
-            var kwh = calculateKwh(volt, ampere);
-            var kwhElement = document.getElementById('kwh');
-            kwhElement.innerText = kwh.toFixed(2) + ' kWh';
-            var color;
-            if (kwh < 50) {
-                color = 'green';
-            } else if (kwh < 75) {
-                color = 'orange';
-            } else {
-                color = 'red';
-            }
-            kwhElement.style.setProperty('--color', color);
-        });
+    var humidityElement = document.getElementById('humidity');
+    humidityElement.querySelector('.circle-text').innerText = data['Humidite'] + ' %';
+
+    var temperatureElement = document.getElementById('temperature');
+    temperatureElement.querySelector('.circle-text').innerText = data['Temperature'] + ' °C';
+
+    var volt = parseFloat(data['Volt']); // Convertir en nombre
+    var ampere = parseFloat(data['Ampere']); // Convertir en nombre
+
+    var kwh = calculateKwh(volt, ampere);
+    var kwhElement = document.getElementById('kwh');
+    var color;
+    if (kwh < 50) {
+        color = 'green';
+    } else if (kwh < 75) {
+        color = 'orange';
+    } else {
+        color = 'red';
+    }
+    kwhElement.style.setProperty('--color', color);
+    kwhElement.querySelector('.circle-text').innerText = kwh.toFixed(2) + ' kWh';
 }
 
 function calculateKwh(volt, ampere) {

@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+if(isset($_SESSION['username'])) {
+    // Récupérer les informations de l'utilisateur
+    $query = $bdd->prepare("SELECT pseudo, photo_profil FROM users WHERE pseudo = ?");
+    $query->execute([$_SESSION['username']]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+}
+
+// Afficher le message d'erreur s'il existe
+$error_message = "";
+if(isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+// Gérer la déconnexion
+if (isset($_GET['logout'])) {
+  session_unset();
+  session_destroy();
+  header("Location: index.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -90,28 +116,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <li class="nav-item"><a href="#" class="nav-link link-secondary" aria-current="page">Accueil</a></li>
         <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
         <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
-        <li><a class="btn btn-outline-success me-2" href="user/login" role="button">Connexion</a></li>
-        <li><button type="button" class="btn btn-success">S'inscrire</button></li>
+          <?php
+          if (isset($_SESSION['username']))   {
+              // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
+              $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
+              echo "<li class='nav-item'><a href='user.php' class='nav-link text-success'>{$username}</a></li>";
+              echo "<li class='nav-item'><a class='btn btn-success' href='user.php?logout=true'>Déconnexion</a></li>";
+          } else {
+              echo "<li><a href='login.php' class='btn btn-outline-success me-2' style='text-decoration:none'>Connexion</a></li>";
+              echo "<li><a href='register.php' class='btn btn-success'>S'inscrire</a></li>";
+          }
+          ?>
       </ul>
   </div>
 </nav>
-    <main class="form-signin w-100 m-auto">
-        <h1 class="h3 mb-3 fw-normal">Créer un compte</h1>
+    
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+        <div class="form-container">
+            <h1 class="h3 mb-3 fw-normal text-center">Créer un compte</h1>
             <?php
             if (isset($error_message)) {
                 echo "<p style='color: red;'>$error_message</p>";
             }
             ?>
             <form action="" method="post">
-                <input type="text" name="pseudo" placeholder="Pseudo" required>
-                <input type="email" name="email" placeholder="Adresse email" required>
-                <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
-                <input type="date" name="date_naissance" placeholder="Date de naissance" required>
-                <input type="submit" value="Créer un compte">
+                <div class="form-floating mb-3">
+                    <input type="text" name="pseudo" class="form-control" id="pseudo" placeholder="Pseudo" required>
+                    <label for="pseudo">Pseudo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Adresse email" required>
+                    <label for="email">Adresse email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="mot_de_passe" class="form-control" id="mot_de_passe" placeholder="Mot de passe" required>
+                    <label for="mot_de_passe">Mot de passe</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" name="date_naissance" class="form-control" id="date_naissance" placeholder="Date de naissance" required>
+                    <label for="date_naissance">Date de naissance</label>
+                </div>
+                <button class="btn btn-success w-100 py-2" type="submit">Créer un compte</button>
             </form>
-            <p>Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a>.</p>
+            <p class="mt-3 text-center">Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a>.</p>
         </div>
     </main>
+    
 </body>
     <footer class="container py-5">
         <div class="row">
@@ -123,8 +173,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <ul class="list-unstyled text-small">
                 <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
                 <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
-                <li><a class="link-secondary text-decoration-none" href="user/login">Connexion</a></li>
-                <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">

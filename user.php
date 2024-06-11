@@ -1,5 +1,6 @@
 <?php
 session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=mesure', 'root', '');
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['username'])) {
@@ -192,109 +193,143 @@ $diffInYears = abs($interval->y);
 
 <!-------------------------------------------------------------------------------------------------------------------------------------------->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Profil - <?php echo $user['pseudo']; ?></title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<section class="afficher">
-<nav><a href="../index.php" style="text-decoration:none"><img id="imgpetit" src="../image/logopetit.png"></a></nav>
-    <nav><a href="?logout=true" style="text-decoration:none">Déconnexion</a></nav>
-</section>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>EcoControl - Accueil Utilisateur</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/index.css" type="text/css">
+    </head>
+    <style>
+        .nav-link svg {
+            fill: white;
+        }
+    </style>
 
-<header><h1>TrackBase</h1></header> <h3 class="fidelite"><?php if ($diffInYears > 1){ echo "Félicitations, cela fait $diffInYears ans que vous êtes avec nous."; } if ($diffInYears == 1){ echo "Félicitations, cela fait $diffInYears an que vous êtes avec nous."; } ?></h3>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="home" viewBox="0 0 16 16">
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+        </symbol>
+        <symbol id="speedometer2" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+        </symbol>
+        <symbol id="table" viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+        </symbol>
+        <symbol id="people-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </symbol>
+        <symbol id="box-arrow-right2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+        </symbol>
+    </svg>
 
-<article>
-    <h2><center>Profil de <?php echo $user['pseudo']; ?></center></h2>
-    <p><strong>Pseudo:</strong> <?php echo $user['pseudo']; ?></p>
-    <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
-    <p><strong>date d'inscrition :</strong> <?php echo $user['date_creation_compte']; ?></p>
-    <p><strong>Description:</strong> <?php echo $user['description']; ?></p>
-    <!-- Afficher d'autres informations de l'utilisateur si nécessaire -->
-    
-    <!-- Afficher la photo de profil ou la couleur -->
-    <?php if (isset($user['photo_profil']) && strpos($user['photo_profil'], '#') === 0): ?>
-        <div style="width: 100px; height: 100px; background-color: <?php echo htmlspecialchars($user['photo_profil'], ENT_QUOTES, 'UTF-8'); ?>;"></div>
-    <?php elseif (!empty($user['photo_profil'])): ?>
-        <img src="<?php echo htmlspecialchars($user['photo_profil'], ENT_QUOTES, 'UTF-8'); ?>" alt="Photo de profil" style="width: 100px; height: 100px;">
-    <?php else: ?>
-        <p>Aucune photo de profil définie.</p>
-    <?php endif; ?>
+    <header>
+        <div class="px-3 py-2 text-bg-dark border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="../index" class="d-flex align-items-center my-3 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <bold><span class="text-primary" style="font-size: 26px;">Eco</span><span class="text-success" style="font-size: 26px;">Control</span></bold>
+            </a>
 
-</article>
-
-    
-    </article>
-
-<article>
-    <!-- Bouton pour afficher/masquer le formulaire -->
-    <button id="optionButton" onclick="toggleForm()" class="bouton-changer-page">Options</button>
-        
-        <!-- Formulaire pour changer le pseudo -->
-        <div id="changePseudoForm">
-            <p><br></br></p>
-            <h3>Changer de pseudo</h3>
-            <form action="user.php" method="POST">
-                <label for="new_pseudo">Nouveau pseudo :</label>
-                <input type="text" id="new_pseudo" name="new_pseudo" required>
-                <button type="submit" name="change_pseudo" class="bouton-changer-page">Changer de pseudo</button>
-            </form>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                <li>
+                <a href="user/" class="nav-link text-white">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"/></svg>
+                    Accueil
+                </a>
+                </li>
+                <li>
+                <a href="user/dashboard" class="nav-link text-white">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
+                    Dashboard
+                </a>
+                </li>
+                <li>
+                <a href="../user.php" class="nav-link text-white">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
+                    <?php 
+                        if (isset($_SESSION['username'])) {
+                            $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
+                             echo "{$username}";
+                    }
+                    ?>
+                </a>
+                </li>
+                <li>
+                <a href="?logout=true" class="nav-link text-white">
+                    <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#box-arrow-right2"/></svg>
+                    Déconnexion
+                </a>
+                </li>
+            </ul>
+            </div>
         </div>
+    </div>
+</header>
 
-        <!-- Formulaire pour changer l'adresse e-mail -->
-        <div id="changeEmailForm">
-            <p><br></br></p>
-            <h3>Changer d'adresse e-mail</h3>
-            <form action="user.php" method="POST">
-                <label for="new_email">Nouvelle adresse e-mail :</label>
-                <input type="email" id="new_email" name="new_email" required>
-                <button type="submit" name="change_email" class="bouton-changer-page">Changer d'adresse e-mail</button>
-            </form>
-        </div>
+<div class="container py-5 mt-5">
+    <header class="mb-4 text-center">
+        <h3 class="fidelite">
+            <?php 
+                if ($diffInYears > 1) {
+                    echo "Utilisateur fidèle depuis plus d'un an";
+                } else {
+                    echo "Utilisateur depuis moins d'un an";
+                }
+            ?>
+        </h3>
+        <p>Bienvenue sur la page utilisateur. Vous pouvez modifier vos informations personnelles ici.</p>
+    </header>
 
-        <!-- Formulaire pour changer le mot de passe -->
-        <div id="changePasswordForm">
-            <p><br></br></p>
-            <h3>Changer de mot de passe</h3>
-            <form action="user.php" method="POST">
-                <label for="old_password">Ancien mot de passe :</label>
-                <input type="password" id="old_password" name="old_password" required><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Informations personnelles</h2>
+            <p><strong>Pseudo :</strong> <?php echo htmlspecialchars($user['pseudo']); ?></p>
+            <p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
 
-                <label for="new_password">Nouveau mot de passe :</label>
-                <input type="password" id="new_password" name="new_password" required><br>
-
-                <label for="confirm_password">Confirmer le nouveau mot de passe :</label>
-                <input type="password" id="confirm_password" name="confirm_password" required><br>
-
-                <button type="submit" name="change_password" class="bouton-changer-page">Changer de mot de passe</button>
-            </form>
-        </div>
-
-        <!-- Formulaire pour changer la PP -->
-        <div id="changePPForm">
-            <p><br></br></p>
-            <h3>Télécharger une photo de profil</h3>
-            <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
-                <label for="photo_profil">Télécharger une photo de profil :</label>
-                <input type="file" name="photo_profil" id="photo_profil">
-                <br></br>
-                <button type="submit" class="bouton-changer-page">Télécharger</button>
-            </form>
-        </div>
-
-        <!-- Formulaire pour ajouter ou mettre à jour la description -->
-        <div id="changeDescriptionForm">
-            <p><br></br></p>
-            <h3>Ajouter/Mettre à jour la description</h3>
+            <h2>Changer de pseudo</h2>
             <form method="post" action="">
-                    <label for="description">Nouvelle description :</label><br>
-                    <textarea name="description" id="description" rows="4" cols="50"></textarea><br>
-                    <button type="submit" class="bouton-changer-page">Ajouter/Mettre à jour la description</button>
-                </form>
+                <div class="mb-3">
+                    <label for="new_pseudo" class="form-label">Nouveau pseudo</label>
+                    <input type="text" class="form-control" id="new_pseudo" name="new_pseudo" required>
+                </div>
+                <button type="submit" class="btn btn-success" name="change_pseudo">Changer de pseudo</button>
+            </form>
+
+            <h2>Changer d'email</h2>
+            <form method="post" action="">
+                <div class="mb-3">
+                    <label for="new_email" class="form-label">Nouvel email</label>
+                    <input type="email" class="form-control" id="new_email" name="new_email" required>
+                </div>
+                <button type="submit" class="btn btn-success" name="change_email">Changer d'email</button>
+            </form>
+
+            <h2>Changer de mot de passe</h2>
+            <form method="post" action="">
+                <div class="mb-3">
+                    <label for="old_password" class="form-label">Ancien mot de passe</label>
+                    <input type="password" class="form-control" id="old_password" name="old_password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">Nouveau mot de passe</label>
+                    <input type="password" class="form-control" id="new_password" name="new_password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirmer le nouveau mot de passe</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-success" name="change_password">Changer de mot de passe</button>
+            </form>
         </div>
+    </div>
+</div>
 
 </article>
 
@@ -334,4 +369,26 @@ $diffInYears = abs($interval->y);
     </script>
 
 </body>
+    <footer class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md">
+            EcoControl © 2024
+            </div>
+            <div class="col-6 col-md">
+            <h5>Pages</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
+                <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
+            </ul>
+            </div>
+            <div class="col-6 col-md">
+            <h5>Autres</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="link-secondary text-decoration-none" href="about">À Propos</a></li>
+                <li><a class="link-secondary text-decoration-none" href="contact">Contactez-nous</a></li>
+                <li><a class="link-secondary text-decoration-none" href="terms">Conditions générales d'utilisation</a></li>
+            </ul>
+            </div>
+        </div>
+    </footer>
 </html>

@@ -49,10 +49,11 @@ if (isset($_GET['logout'])) {
           if (isset($_SESSION['username']))   {
               // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
               $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
-              echo "<nav><a href='user.php' class='nav-link text-success'>{$username}</a></nav>";
+              echo "<li class='nav-item'><a href='user.php' class='nav-link text-success'>{$username}</a></li>";
+              echo "<li class='nav-item'><a class='btn btn-success' href='user.php?logout=true'>Déconnexion</a></li>";
           } else {
-              echo "<nav><a href='html/login.php' class='btn btn-success' style='text-decoration:none'>Connexion</a></nav>";
-              echo "<li><button type='button' class='btn btn-success'>S'inscrire</button></li>";
+              echo "<li><a href='login.php' class='btn btn-outline-success me-2' style='text-decoration:none'>Connexion</a></li>";
+              echo "<li><a href='register.php' class='btn btn-success'>S'inscrire</a></li>";
           }
           ?>
         </ul>
@@ -64,7 +65,16 @@ if (isset($_GET['logout'])) {
       <h1 class="display-1 text-white">Jouez, économisez, gagnez</h1>
       <h4 class="fw-normal text-white">Avec EcoControl, l'économie d'énergie n'a jamais été aussi ludique</h4>
       <div class="d-flex gap-3 justify-content-center lead fw-normal">
-        <button type="button" class="btn-lg btn btn-success">Inscrivez-vous</button>
+        
+      <?php
+        if (!isset($_SESSION['username'])) {
+          echo "<a href='register' class='btn-lg btn btn-success'>Inscrivez-vous</a>";
+        }
+        else
+        {
+          echo "<a href='user.php' class='btn-lg btn btn-success'>Voir mon profil</a>";
+        }
+      ?>
       </div>
     </div>
   </div>
@@ -79,8 +89,6 @@ if (isset($_GET['logout'])) {
       <ul class="list-unstyled text-small">
         <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
         <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
-        <li><a class="link-secondary text-decoration-none" href="user/login">Connexion</a></li>
-        <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">
