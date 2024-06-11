@@ -1,3 +1,31 @@
+<?php
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=mesure', 'root', '');
+
+if(isset($_SESSION['username'])) {
+    // Récupérer les informations de l'utilisateur
+    $query = $bdd->prepare("SELECT pseudo, photo_profil FROM users WHERE pseudo = ?");
+    $query->execute([$_SESSION['username']]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+}
+
+// Afficher le message d'erreur s'il existe
+$error_message = "";
+if(isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+// Gérer la déconnexion
+if (isset($_GET['logout'])) {
+  session_unset();
+  session_destroy();
+  header("Location: index.php");
+  exit();
+}
+?>
+
 <!doctype html>
 <html lang="fr">
     <head>
@@ -17,8 +45,16 @@
           <li class="nav-item"><a href="#" class="nav-link link-secondary" aria-current="page">Accueil</a></li>
           <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
           <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
-          <li><a class="btn btn-outline-success me-2" href="user/dashboard" role="button">Connexion</a></li>
-          <li><button type="button" class="btn btn-success">S'inscrire</button></li>
+          <?php
+          if (isset($_SESSION['username']))   {
+              // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
+              $username = htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8');
+              echo "<nav><a href='user.php' class='nav-link text-success'>{$username}</a></nav>";
+          } else {
+              echo "<nav><a href='html/login.php' class='btn btn-success' style='text-decoration:none'>Connexion</a></nav>";
+              echo "<li><button type='button' class='btn btn-success'>S'inscrire</button></li>";
+          }
+          ?>
         </ul>
     </div>
   </nav>
@@ -39,11 +75,12 @@
       EcoControl © 2024
     </div>
     <div class="col-6 col-md">
-      <h5>Features</h5>
+      <h5>Pages</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+        <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
+        <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
+        <li><a class="link-secondary text-decoration-none" href="user/login">Connexion</a></li>
+        <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">

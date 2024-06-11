@@ -23,7 +23,7 @@ $xpath = new DOMXPath($dom);
 $pTags = $xpath->query('//p');
 
 // Initialize variables
-$temperature = $humidity = $tension = null;
+$temperature = $humidity = $ampere = $volt = null;
 
 foreach ($pTags as $pTag) {
     $text = $pTag -> textContent;
@@ -33,7 +33,9 @@ foreach ($pTags as $pTag) {
     } elseif (strpos($text, 'Humidite:') !== false) {
         $humidity = trim(str_replace('Humidite:', '', $text));
     } elseif (strpos($text, 'Ampere:') !== false) {
-        $tension = trim(str_replace('Ampere:', '', $text));
+        $ampere = trim(str_replace('Ampere:', '', $text));
+    } elseif (strpos($text, 'Volt:') !== false) {
+        $volt = trim(str_replace('Volt:', '', $text));
     }
 }
 
@@ -52,13 +54,14 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Prepare the SQL statement with placeholders
-    $sql = "INSERT INTO mesure (Temperature, Humidite, Tension, DateHeure) VALUES (:temperature, :humidite, :tension, :date)";
+    $sql = "INSERT INTO mesure (Temperature, Humidite, Ampere, Volt, DateHeure) VALUES (:temperature, :humidite, :ampere, :volt, :date)";
     $stmt = $pdo->prepare($sql);
     
     // Bind the data to the placeholders
     $stmt->bindParam(':temperature', $temperature);
     $stmt->bindParam(':humidite', $humidity);
-    $stmt->bindParam(':tension', $tension);
+    $stmt->bindParam(':ampere', $ampere);
+    $stmt->bindParam(':volt', $volt);
     $stmt->bindParam(':date', $currentDate);
     
     // Execute the statement

@@ -97,11 +97,12 @@
             EcoControl © 2024
             </div>
             <div class="col-6 col-md">
-            <h5>Features</h5>
+            <h5>Pages</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
-                <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
-                <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+                <li><a class="link-secondary text-decoration-none" href="#">Accueil</a></li>
+                <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
+                <li><a class="link-secondary text-decoration-none" href="login">Connexion</a></li>
+                <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">

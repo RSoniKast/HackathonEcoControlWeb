@@ -52,11 +52,12 @@
             EcoControl © 2024
             </div>
             <div class="col-6 col-md">
-            <h5>Features</h5>
+            <h5>Pages</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
-                <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
-                <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+                <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
+                <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
+                <li><a class="link-secondary text-decoration-none" href="login">Connexion</a></li>
+                <li><a class="link-secondary text-decoration-none" href="signup">Inscription</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">
@@ -72,14 +73,14 @@
         <script>
             document.getElementById('contact-form').addEventListener('submit', function(event) {
                 event.preventDefault();
-                // Validate the email and message
+                // Valider l'email et le message
                 var email = document.getElementById('email-input').value;
                 var message = document.getElementById('message-input').value;
 
                 if (email && message) {
-                    // Display the confirmation message
+                    // Afficher la confirmation
                     document.getElementById('confirmation-message').style.display = 'block';
-                    // Optionally, clear the form fields
+                    // Vider les champs
                     document.getElementById('contact-form').reset();
                 } else {
                     alert('Veuillez remplir tous les champs.');
