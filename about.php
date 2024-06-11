@@ -1,10 +1,19 @@
 <?php 
 session_start();
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
+if(isset($_SESSION['username'])) {
+    // Récupérer les informations de l'utilisateur
+    $query = $bdd->prepare("SELECT pseudo, photo_profil FROM users WHERE pseudo = ?");
+    $query->execute([$_SESSION['username']]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+}
+
+// Afficher le message d'erreur s'il existe
+$error_message = "";
+if(isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
 }
 
 // Vérifier si l'utilisateur a cliqué sur le lien de déconnexion
@@ -55,7 +64,22 @@ if (isset($_GET['logout'])) {
 
     <div class="px-4 py-5 my-5 mx-5 text-justify">
         <h1 class="display-4 text-center">À Propos</h1>
-        textetextetexte
+        <h3>Qui sommes-nous ?</h3>
+        EcoControl est une initiative innovante dédiée à simplifier la gestion de la consommation énergétique pour les foyers et les entreprises. Notre mission est de vous offrir des outils 
+        efficaces pour surveiller et contrôler votre consommation d'énergie en temps réel, vous permettant ainsi d'optimiser votre utilisation des ressources, de réduire vos coûts et de minimiser votre 
+        impact environnemental.
+        <h3>Nos solutions</h3>
+        Nous proposons des versions spécialisées pour l'électricité, le gaz et l'eau, afin de répondre précisément aux besoins uniques de chaque utilisateur. EcoControl s'intègre facilement dans 
+        les réseaux existants, offrant des solutions sur mesure pour une gestion énergétique optimale.
+        <h3>Notre objectif</h3>
+        Notre principal objectif est d'identifier et de réduire le gaspillage énergétique, contribuant ainsi à une utilisation plus efficace des ressources. En plus de fournir des outils de gestion 
+        avancés, EcoControl vise également à sensibiliser les utilisateurs à l'importance de la réduction de la consommation énergétique à domicile.
+        <h3>Pourquoi choisir EcoControl ?</h3>
+        <li>Intégration facile : Compatible avec les infrastructures existantes.</li>
+        <li>Surveillance en temps réel : Suivi précis de votre consommation énergétique.</li>
+        <li>Solutions personnalisées : Adaptées à vos besoins spécifiques en électricité, gaz et eau.</li>
+        <li>Impact positif : Réduction des coûts et diminution de l'empreinte environnementale.</li>
+        Rejoignez-nous dans notre démarche pour un avenir plus vert et économisez sur vos factures énergétiques grâce à EcoControl !
     </div>
 
     <footer class="container py-5">

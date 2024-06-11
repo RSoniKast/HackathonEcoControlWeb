@@ -48,7 +48,6 @@ if (isset($_GET['logout'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>EcoControl - Accueil Utilisateur</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/index.css" type="text/css">
     </head>
     <style>
         .nav-link svg {
@@ -121,6 +120,59 @@ if (isset($_GET['logout'])) {
         </div>
     </header>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-wh+J1HAshLqqdE4c7csEcGVahmjG5ZG7fb/XQTPgWSKkZjbQvdlQjEl19wIY4G7q" crossorigin="anonymous"></script>
-    </body>
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <main class="col-md-9 col-lg-10">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Partager</button>
+              </div>
+            </div>
+          </div>
+
+          <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+          <?php
+            // Your PHP code for session start, database connection, and other necessary configurations
+
+            // Fetch data from the database
+            $query = $bdd->query("SELECT ID_mesure, DateHeure, Humidite, Temperature, Volt, Ampere FROM mesure");
+            $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+
+            <h2>Consommation d'énergie</h2>
+            <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Humidité</th>
+                    <th scope="col">Température</th>
+                    <th scope="col">Volt</th>
+                    <th scope="col">Ampere</th>
+                    <th scope="col">Kilowatt-heure</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($rows as $row): ?>
+                <tr>
+                    <td><?php echo $row['ID_mesure']; ?></td>
+                    <td><?php echo $row['DateHeure']; ?></td>
+                    <td><?php echo $row['Humidite']; ?></td>
+                    <td><?php echo $row['Temperature']; ?></td>
+                    <td><?php echo $row['Volt']; ?></td>
+                    <td><?php echo $row['Ampere']; ?></td>
+                    <td><?php echo (($row['Volt'] * $row['Ampere']) / 1000); // Assuming time is 1 hour ?></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            </div>
+        </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script>
+    <script src="../js/dashboard.js"></script></body>
 </html>

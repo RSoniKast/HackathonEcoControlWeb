@@ -1,10 +1,19 @@
 <?php 
 session_start();
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
+if(isset($_SESSION['username'])) {
+    // Récupérer les informations de l'utilisateur
+    $query = $bdd->prepare("SELECT pseudo, photo_profil FROM users WHERE pseudo = ?");
+    $query->execute([$_SESSION['username']]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+}
+
+// Afficher le message d'erreur s'il existe
+$error_message = "";
+if(isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
 }
 
 // Vérifier si l'utilisateur a cliqué sur le lien de déconnexion

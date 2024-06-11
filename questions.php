@@ -32,7 +32,7 @@ if (isset($_GET['logout'])) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>EcoControl - Contact</title>
+        <title>EcoControl - F.A.Q.</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
@@ -46,7 +46,7 @@ if (isset($_GET['logout'])) {
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="index" class="nav-link text-success" aria-current="page">Accueil</a></li>
           <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
-          <li class="nav-item"><a href="#" class="nav-link link-secondary">Contact</a></li>
+          <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
           <?php
           if (isset($_SESSION['username']))   {
               // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
@@ -63,25 +63,25 @@ if (isset($_GET['logout'])) {
   </nav>
 
     <div class="px-4 py-5 my-5 mx-5 text-justify">
-        <h1 class="display-4 text-center">Contactez-nous</h1>
-        <p class="text-center">Vous pouvez nous contacter à partir de l'adresse "contact@ecocontrol.fr", mais vous pouvez aussi renseigner votre
-            message dans le champ ci-dessous.</p>
-        <form id="contact-form">
-            <div class="form-group">
-                <label for="Adresse mail">Adresse mail</label>
-                <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Veuillez rentrer votre adresse mail.">
-                <small id="emailHelp" class="form-text text-muted">Nous ne partagerons pas votre email avec qui que ce soit.</small>
-            </div>
-            <div class="form-group">
-                <label for="Message">Message</label>
-                <textarea class="form-control" id="message-input" rows="3"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success">Envoyer</button>
-        </form>
-        <div id="confirmation-message" class="alert alert-success mt-3" style="display: none;">
-            Votre message a été envoyé.
-        </div>
+        <h1 class="display-4 text-center">F.A.Q.</h1>
+        <h3>Q: Qu'est-ce qu'EcoControl ?</h3>
+        EcoControl est une plateforme innovante qui facilite la gestion de la consommation énergétique pour les foyers et les entreprises. Elle permet de surveiller et de contrôler en temps réel la consommation d'électricité, de gaz et d'eau, offrant des solutions personnalisées pour chaque utilisateur.
+        <h3>Q: Comment EcoControl fonctionne-t-il ?</h3>
+        EcoControl s'intègre facilement aux réseaux existants de votre domicile ou entreprise. Une fois installé, il surveille en temps réel votre consommation énergétique et vous fournit des données précises et exploitables pour optimiser l'utilisation de vos ressources.
+        <h3>Q: Quels types d'énergie EcoControl peut-il surveiller ?</h3>
+        EcoControl peut surveiller et gérer la consommation d'électricité, de gaz et d'eau. Nous proposons des versions spécialisées pour chaque type de ressource afin de répondre aux besoins spécifiques de nos utilisateurs.
+        <h3>Q: Comment EcoControl peut-il aider à réduire les coûts énergétiques ?</h3>
+        En vous fournissant une surveillance en temps réel et des analyses détaillées de votre consommation énergétique, EcoControl vous aide à identifier les zones de gaspillage. Vous pouvez ainsi prendre des mesures pour réduire votre consommation, optimisant ainsi votre utilisation d'énergie et réduisant vos factures.
+        <h3>Q: EcoControl est-il facile à installer ?</h3>
+        Oui, EcoControl est conçu pour s'intégrer facilement aux infrastructures existantes. L'installation est simple et rapide, et nos guides et support technique sont à votre disposition pour vous aider en cas de besoin.
+        <h3>Q: Est-ce que je peux utiliser EcoControl pour sensibiliser ma famille ou mes employés à la consommation énergétique ?</h3>
+        Absolument. EcoControl ne se contente pas de surveiller la consommation énergétique, il vise également à sensibiliser les utilisateurs à l'importance de réduire leur consommation. Les données et rapports fournis peuvent être utilisés pour éduquer et encourager des pratiques de consommation plus responsables.
+        <h3>Q: Est-ce que mes données sont sécurisées avec EcoControl ?</h3>
+        Oui, la sécurité de vos données est une priorité pour nous. EcoControl utilise des protocoles de sécurité avancés pour garantir la confidentialité et l'intégrité de vos informations personnelles et de vos données de consommation.
+        <h3>Q: Comment puis-je commencer avec EcoControl ?</h3>
+        Pour commencer avec EcoControl, il vous suffit de visiter notre site web, de choisir la solution qui correspond à vos besoins (électricité, gaz, eau) et de suivre les instructions d'installation. Notre équipe est également disponible pour vous assister tout au long du processus.
+        <h3>Q: Puis-je obtenir de l'aide si j'ai des problèmes avec EcoControl ?</h3>
+        Oui, notre service client est toujours prêt à vous aider. Vous pouvez nous contacter via notre site web, par email ou par téléphone, et nous serons heureux de répondre à vos questions et de résoudre vos problèmes.
     </div>
 
     <footer class="container py-5">
@@ -92,7 +92,7 @@ if (isset($_GET['logout'])) {
             <div class="col-6 col-md">
             <h5>Pages</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="link-secondary text-decoration-none" href="index">Accueil</a></li>
+                <li><a class="link-secondary text-decoration-none" href="#">Accueil</a></li>
                 <li><a class="link-secondary text-decoration-none" href="questions">F.A.Q.</a></li>
             </ul>
             </div>
@@ -105,23 +105,5 @@ if (isset($_GET['logout'])) {
             </ul>
             </div>
         </div>
-
-        <script>
-            document.getElementById('contact-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Valider l'email et le message
-                var email = document.getElementById('email-input').value;
-                var message = document.getElementById('message-input').value;
-
-                if (email && message) {
-                    // Afficher la confirmation
-                    document.getElementById('confirmation-message').style.display = 'block';
-                    // Vider les champs
-                    document.getElementById('contact-form').reset();
-                } else {
-                    alert('Veuillez remplir tous les champs.');
-                }
-            });
-        </script>
     </footer>
 </html>
