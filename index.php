@@ -8,22 +8,21 @@
     </head>
   <nav class="navbar fixed-top navbar-light bg-light">
     <div class="container">
-        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <a href="index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <span class="fs-4">
               <bold><span class="text-primary">Eco</span><span class="text-success">Control</bold></span>
           </span>
         </a>
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="#" class="nav-link link-secondary" aria-current="page">Accueil</a></li>
-          <li class="nav-item"><a href="#" class="nav-link text-success">À Propos</a></li>
-          <li class="nav-item"><a href="#" class="nav-link text-success">FAQs</a></li>
+          <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
+          <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
           <li><a class="btn btn-outline-success me-2" href="user/dashboard" role="button">Connexion</a></li>
           <li><button type="button" class="btn btn-success">S'inscrire</button></li>
         </ul>
     </div>
   </nav>
 
-  <main>
   <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-secondary" style="background-image: url('img/ecocontrolbg.jpg');">
     <div class="col-md-6 p-lg-5 mx-auto my-5">
       <h1 class="display-1 text-white">Jouez, économisez, gagnez</h1>
@@ -48,19 +47,11 @@
       </ul>
     </div>
     <div class="col-6 col-md">
-      <h5>Resources</h5>
+      <h5>Autres</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
-      </ul>
-    </div>
-    <div class="col-6 col-md">
-      <h5>À Propos</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="link-secondary text-decoration-none" href="#">Contactez-nous</a></li>
-        <li><a class="link-secondary text-decoration-none" href="#">Conditions générales d'utilisation</a></li>
+        <li><a class="link-secondary text-decoration-none" href="about">À Propos</a></li>
+        <li><a class="link-secondary text-decoration-none" href="contact">Contactez-nous</a></li>
+        <li><a class="link-secondary text-decoration-none" href="terms">Conditions générales d'utilisation</a></li>
       </ul>
     </div>
   </div>
