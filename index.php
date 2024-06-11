@@ -1,3 +1,36 @@
+<?php
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=hackathonecocontrolweb', 'root', '');
+
+
+if(isset($_SESSION['username'])) {
+    // Récupérer les informations de l'utilisateur
+    $query = $bdd->prepare("SELECT pseudo, photo_profil FROM users WHERE pseudo = ?");
+    $query->execute([$_SESSION['username']]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+}
+
+
+// Afficher le message d'erreur s'il existe
+$error_message = "";
+if(isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+// Gérer la déconnexion
+if (isset($_GET['logout'])) {
+  session_unset();
+  session_destroy();
+  header("Location: index.php");
+  exit();
+}
+
+
+
+?>
+
 <!doctype html>
 <html lang="fr">
     <head>
@@ -17,8 +50,15 @@
           <li class="nav-item"><a href="#" class="nav-link link-secondary" aria-current="page">Accueil</a></li>
           <li class="nav-item"><a href="#" class="nav-link text-success">À Propos</a></li>
           <li class="nav-item"><a href="#" class="nav-link text-success">FAQs</a></li>
-          <li><a class="btn btn-outline-success me-2" href="user/dashboard" role="button">Connexion</a></li>
-          <li><button type="button" class="btn btn-success">S'inscrire</button></li>
+          <?php
+        if (isset($_SESSION['username'])) {
+            // Afficher le lien vers la page de profil avec le pseudo de l'utilisateur
+            echo "<nav><a href='?logout=true' class='btn btn-success' style='text-decoration:none'>Se déconnecter</a></nav>";
+        } else {
+            echo "<nav><a href='html/login.php' class='btn btn-success' style='text-decoration:none'>Connexion</a></nav>";
+        }
+        ?>
+          <a class="btn btn-success" href="html/register.php" role="button">S'inscrire</a>
         </ul>
     </div>
   </nav>
@@ -29,7 +69,7 @@
       <h1 class="display-1 text-white">Jouez, économisez, gagnez</h1>
       <h4 class="fw-normal text-white">Avec EcoControl, l'économie d'énergie n'a jamais été aussi ludique</h4>
       <div class="d-flex gap-3 justify-content-center lead fw-normal">
-        <button type="button" class="btn-lg btn btn-success">Inscrivez-vous</button>
+      <a class="btn btn-success" href="html/register.php" role="button">Inscrivez-vous</a>  
       </div>
     </div>
   </div>
