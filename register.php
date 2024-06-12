@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </span>
       </a>
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link link-secondary" aria-current="page">Accueil</a></li>
+        <li class="nav-item"><a href="index" class="nav-link text-success" aria-current="page">Accueil</a></li>
         <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
         <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
           <?php
