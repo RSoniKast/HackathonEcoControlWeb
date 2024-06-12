@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 10 juin 2024 à 12:28
+-- Généré le : mar. 11 juin 2024 à 13:01
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -33,9 +33,17 @@ CREATE TABLE IF NOT EXISTS `mesure` (
   `DateHeure` date NOT NULL,
   `Humidite` decimal(10,0) NOT NULL,
   `Temperature` decimal(10,0) NOT NULL,
-  `Tension` decimal(10,0) NOT NULL,
+  `Volt` decimal(10,0) NOT NULL,
+  `Ampere` decimal(10,0) NOT NULL,
   PRIMARY KEY (`ID_mesure`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `mesure`
+--
+
+INSERT INTO `mesure` (`ID_mesure`, `DateHeure`, `Humidite`, `Temperature`, `Volt`, `Ampere`) VALUES
+(0, '0000-00-00', '0', '0', '0', '0');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

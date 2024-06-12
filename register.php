@@ -1,5 +1,6 @@
 <?php
 session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=mesure', 'root', '');
 
 if(isset($_SESSION['username'])) {
     // Récupérer les informations de l'utilisateur

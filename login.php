@@ -47,7 +47,7 @@ if (isset($_GET['logout'])) {
                 <li class="nav-item"><a href="about" class="nav-link text-success">À Propos</a></li>
                 <li class="nav-item"><a href="contact" class="nav-link text-success">Contact</a></li>
                 <li><a class="btn btn-outline-success me-2" href="login" role="button">Connexion</a></li>
-                <li><button type="button" class="btn btn-success">S'inscrire</button></li>
+                <li><a class="btn btn-success" href="register" role="button">S'inscrire</a></li>
             </ul>
         </div>
     </nav>
